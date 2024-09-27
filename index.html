@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Robotika Mode Map</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Orbitron', sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+        #map {
+            height: 600px;
+            width: 100%;
+            margin: 0 auto;
+            border: 3px solid rgba(0, 0, 100, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 100, 0.7);
+            position: relative;
+        }
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 100, 0.9);
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 1000;
+            width: 150px;
+        }
+        .legend i {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+        .blue { background: rgba(0, 0, 255, 1); }
+        .green { background: rgba(0, 255, 0, 1); }
+        .yellow { background: rgba(255, 255, 0, 1); }
+        .red { background: rgba(255, 0, 0, 1); }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: cyan;">Communautés Berbères en Allemagne</h1>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Legend for community colors -->
+    <div class="legend">
+        <i class="blue"></i> Kabyles<br>
+        <i class="green"></i> Rifains<br>
+        <i class="yellow"></i> Chaouis<br>
+        <i class="red"></i> Guanches<br>
+    </div>
+
+    <!-- Leaflet JS for the map -->
+    <script>
+        // Initialize the map and set its view to a central location in Germany
+        var map = L.map('map').setView([51.1657, 10.4515], 6);  // Germany's lat/lng and zoom level
+
+        // Add OpenStreetMap tiles as the base layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add markers with custom icons for different communities
+        function createMarker(lat, lng, color, text) {
+            var customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: '<div style="background-color: ' + color + '; width: 20px; height: 20px; border-radius: 50%; box-shadow: 0 0 10px ' + color + ';"></div>',
+                iconSize: [20, 20],
+            });
+            L.marker([lat, lng], { icon: customIcon }).addTo(map).bindPopup(text);
+        }
+
+        // Add markers for each community
+        createMarker(52.5200, 13.4050, 'blue', 'Kabyles à Berlin'); // Berlin, Kabyles
+        createMarker(53.5511, 9.9937, 'green', 'Rifains à Hambourg'); // Hamburg, Rifains
+        createMarker(50.1109, 8.6821, 'yellow', 'Chaouis à Francfort'); // Frankfurt, Chaouis
+        createMarker(48.7758, 9.1829, 'red', 'Guanches à Stuttgart'); // Stuttgart, Guanches
+    </script>
+</body>
+</html>
